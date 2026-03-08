@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "https://moodify-zeta-green.vercel.app",
+    origin: ["https://moodify-zeta-green.vercel.app", "http://localhost:5173", "http://localhost:3000"],
     credentials: true
 }))
 
