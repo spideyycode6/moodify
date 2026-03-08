@@ -14,7 +14,7 @@ const Login = () => {
         e.preventDefault();
         try {
             await handleLogin({ email, password });
-            return (navigate('/'))
+            return (navigate('/home'))
         } catch (error) {
             console.log(error);
             alert('Invalid Credentials')
