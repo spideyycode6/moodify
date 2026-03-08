@@ -1,0 +1,448 @@
+// =============================
+// Player Styles — Premium Horizontal Bar
+// =============================
+@use "sass:color";
+
+$accent: #1db954;
+$accent-dark: #1aa34a;
+$bg-bar: rgba(24, 24, 24, 0.95);
+$text-primary: #ffffff;
+$text-secondary: rgba(255, 255, 255, 0.65);
+$radius: 12px;
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes buffering-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// =============================
+// Horizontal Fixed Bar Wrapper
+// =============================
+.player-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: $bg-bar;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    z-index: 1000;
+}
+
+// Ensure the inner elements flex properly across the bar
+.player-card {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; // left (info), center (controls+progress), right (volume+speed)
+    align-items: center;
+    gap: 20px;
+    position: relative;
+}
+
+// =============================
+// Left side: Poster + Song Info (Horizontal)
+// =============================
+.player-info-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 200px;
+}
+
+.player-poster {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    position: relative;
+
+    .poster-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+        &.spinning {
+            border-radius: 50%;
+            animation: spin 8s linear infinite;
+        }
+    }
+
+    .poster-glow {
+        display: none; // Disable glowing background for horizontal bar to keep it clean
+    }
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    overflow: hidden;
+
+    .song-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: $text-primary;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .song-mood {
+        font-size: 0.7rem;
+        color: $accent;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 600;
+    }
+}
+
+// =============================
+// Center: Controls + Progress Bar
+// =============================
+.player-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: $text-secondary;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, transform 0.1s ease;
+
+    &:hover {
+        color: $text-primary;
+        transform: scale(1.1);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+// Skip buttons
+.skip-btn {
+    width: 32px;
+    height: 32px;
+    flex-direction: column;
+    gap: 0;
+
+    .skip-label {
+        font-size: 0.55rem;
+        font-weight: bold;
+        margin-top: -2px;
+    }
+}
+
+// Play / Pause
+.play-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: $text-primary;
+    color: #000;
+
+    &:hover {
+        background: #fff;
+        color: #000;
+        transform: scale(1.05);
+    }
+
+    &.buffering {
+        background: transparent;
+        pointer-events: none;
+    }
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: buffering-spin 0.8s linear infinite;
+}
+
+// Progress Bar
+.player-progress {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .time-label {
+        font-size: 0.7rem;
+        color: $text-secondary;
+        font-variant-numeric: tabular-nums;
+        min-width: 36px;
+        text-align: center;
+    }
+
+    .progress-track {
+        flex: 1;
+        position: relative;
+        height: 12px;
+        display: flex;
+        align-items: center;
+    }
+
+    .progress-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 4px;
+        border-radius: 4px;
+        background: linear-gradient(to right,
+                $text-primary 0%,
+                $text-primary var(--progress, 0%),
+                rgba(255, 255, 255, 0.15) var(--progress, 0%),
+                rgba(255, 255, 255, 0.15) 100%);
+        cursor: pointer;
+        transition: height 0.1s ease;
+
+        &:hover {
+            height: 6px;
+            background: linear-gradient(to right,
+                    $accent 0%,
+                    $accent var(--progress, 0%),
+                    rgba(255, 255, 255, 0.15) var(--progress, 0%),
+                    rgba(255, 255, 255, 0.15) 100%);
+
+            &::-webkit-slider-thumb {
+                opacity: 1;
+            }
+        }
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: grab;
+            opacity: 0; // Hides thumb until hover (like Spotify)
+            transition: opacity 0.15s ease;
+        }
+
+        &::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            border: none;
+            opacity: 0;
+        }
+    }
+}
+
+// =============================
+// Right side: Volume + Speed
+// =============================
+.player-extras {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+// Volume
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .volume-btn {
+        font-size: 1.1rem;
+        color: $text-secondary;
+
+        &:hover {
+            color: $text-primary;
+        }
+    }
+
+    .volume-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 90px;
+        height: 4px;
+        border-radius: 4px;
+        background: linear-gradient(to right,
+                $text-primary 0%,
+                $text-primary var(--volume, 80%),
+                rgba(255, 255, 255, 0.15) var(--volume, 80%),
+                rgba(255, 255, 255, 0.15) 100%);
+        cursor: pointer;
+
+        &:hover {
+            background: linear-gradient(to right,
+                    $accent 0%,
+                    $accent var(--volume, 80%),
+                    rgba(255, 255, 255, 0.15) var(--volume, 80%),
+                    rgba(255, 255, 255, 0.15) 100%);
+
+            &::-webkit-slider-thumb {
+                opacity: 1;
+            }
+        }
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: grab;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+    }
+}
+
+// Speed
+.speed-control {
+    position: relative;
+
+    .speed-btn {
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: $text-secondary;
+
+        &:hover {
+            color: $text-primary;
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+    }
+
+    .speed-menu {
+        position: absolute;
+        bottom: calc(100% + 16px);
+        right: 0;
+        background: #282828;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+
+        .speed-option {
+            background: none;
+            border: none;
+            color: $text-secondary;
+            font-size: 0.8rem;
+            padding: 6px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: left;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: $text-primary;
+            }
+
+            &.active {
+                color: $accent;
+            }
+        }
+    }
+}
+
+// =============================
+// Loading overlay
+// =============================
+.player-loading {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: $accent;
+    color: #000;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    animation: slide-down 0.3s ease-out;
+}
+
+@keyframes slide-down {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+// =============================
+// Responsive Mobile
+// =============================
+@media (max-width: 768px) {
+    .player-wrapper {
+        height: auto;
+        padding: 16px;
+    }
+
+    .player-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .player-info-container {
+        width: 100%;
+        margin-bottom: 4px;
+    }
+
+    .player-extras {
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 10px;
+    }
+}

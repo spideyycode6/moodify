@@ -1,0 +1,327 @@
+// ==========================================
+// Shared Auth Layout (Login & Register)
+// ==========================================
+@use "sass:color";
+
+$bg-primary: #0a0a0a;
+$bg-secondary: #121212;
+$accent-color: #1db954;
+$accent-glow: rgba($accent-color, 0.4);
+$text-light: #ffffff;
+$text-muted: #a0a0a0;
+$glass-bg: rgba(24, 24, 24, 0.6);
+$glass-border: rgba(255, 255, 255, 0.08);
+
+.auth-page {
+    min-height: 100vh;
+    width: 100%;
+    background-color: $bg-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-light;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+
+// Main 50/50 layout container
+.auth-split-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: 1400px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -20%;
+        left: -10%;
+        width: 60%;
+        height: 60%;
+        background: radial-gradient(circle, $accent-glow 0%, transparent 60%);
+        filter: blur(100px);
+        z-index: -1;
+        pointer-events: none;
+    }
+}
+
+// ==========================================
+// Left Side: Promotional Typography
+// ==========================================
+.auth-promo-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.8) 0%, rgba(20, 20, 20, 0.4) 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.03);
+
+    .promo-content {
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    .app-brand {
+        font-size: 1.8rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: $accent-color;
+        text-transform: uppercase;
+        margin-bottom: 2rem;
+    }
+
+    .promo-headline {
+        font-size: 3.5rem;
+        line-height: 1.1;
+        font-weight: 700;
+        background: linear-gradient(to right, #ffffff, #b3b3b3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .promo-subtext {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: $text-muted;
+    }
+
+    .promo-features {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 2rem;
+
+        span {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #e0e0e0;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s ease, background 0.2s ease;
+
+            &:hover {
+                transform: translateX(10px);
+                background: rgba(255, 255, 255, 0.06);
+                border-color: rgba($accent-color, 0.3);
+            }
+        }
+    }
+}
+
+// ==========================================
+// Right Side: Form (Glassmorphism)
+// ==========================================
+.auth-form-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background-color: $bg-secondary;
+    position: relative;
+
+    .auth-form-wrapper {
+        width: 100%;
+        max-width: 420px;
+        background: $glass-bg;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 48px;
+        border-radius: 24px;
+        border: 1px solid $glass-border;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        animation: fade-in 0.6s ease-out forwards;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 40px;
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: $text-light;
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: $text-muted;
+            font-size: 0.9rem;
+        }
+    }
+
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .form-group {
+            // Assuming FormGroup renders a div with class 'form-group'
+            // If not, these styles can apply globally to the inputs within the form
+            width: 100%;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid $glass-border;
+            padding: 14px 16px;
+            border-radius: 12px;
+            color: $text-light;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.3);
+            }
+
+            &:focus {
+                outline: none;
+                border-color: $accent-color;
+                background: rgba(255, 255, 255, 0.08);
+                box-shadow: 0 0 0 3px rgba($accent-color, 0.15);
+            }
+        }
+    }
+
+    .auth-submit-btn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 16px;
+        background-color: $accent-color;
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 15px rgba($accent-color, 0.3);
+
+        &:hover {
+            background-color: color.adjust($accent-color, $lightness: 5%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba($accent-color, 0.4);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+
+    .auth-footer {
+        margin-top: 32px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: $text-muted;
+
+        .auth-link {
+            color: $text-light;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: $accent-color;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+// ==========================================
+// Animations
+// ==========================================
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+// ==========================================
+// Responsive Layout
+// ==========================================
+@media (max-width: 968px) {
+    .auth-split-container {
+        grid-template-columns: 1fr;
+
+        &::before {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top, $accent-glow 0%, transparent 60%);
+        }
+    }
+
+    .auth-promo-side {
+        padding: 40px 24px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+        .promo-content {
+            align-items: center;
+            text-align: center;
+        }
+
+        .promo-headline {
+            font-size: 2.5rem;
+        }
+    }
+
+    .auth-form-side {
+        padding: 40px 24px;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-promo-side {
+        display: none; // Hide promo entirely on very small screens for pure form focus
+    }
+
+    .auth-split-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .auth-form-side {
+        background: transparent;
+        padding: 20px;
+
+        .auth-form-wrapper {
+            padding: 32px 24px;
+        }
+    }
+}
