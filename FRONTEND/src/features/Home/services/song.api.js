@@ -1,10 +1,6 @@
-import axios from "axios";
-const api = axios.create({
-    baseURL: 'http://localhost:3000',
-    withCredentials: true
-})
+import api from "../../../services";
 
 export async function getSong({ mood }) {
-    const response = await api.get(`/api/song?mood=${mood}`);
+    const response = await api.get(`/api/songs-data?mood=${mood}`);
     return response.data;
 }

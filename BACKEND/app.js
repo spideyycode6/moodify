@@ -22,7 +22,7 @@ const authRouter = require("./src/routes/auth.routes")
 const songRouter = require("./src/routes/song.routes")
 
 app.use("/api/users", authRouter)
-app.use("/api/song", songRouter)
+app.use("/api/songs-data", songRouter)
 
 
 
